@@ -32,10 +32,25 @@ const LeftBar = ({socket}) => {
  
   const [search, setSearch] = useState(false);
 
+   
+   const SearchToggle = (e) =>{
 
+    e.preventDefault();
 
-  const iconsOptions = [
-     
+    if(search){
+
+      setSearch(false)
+
+    }else{
+
+     setSearch(true)
+
+    }
+
+   }
+
+ const iconsOptions = [
+   
     {
 
     Icon:<IoHome />,
@@ -46,11 +61,11 @@ const LeftBar = ({socket}) => {
 
     
     {
-
+      
       Icon:<IoSearch />,
       name:"Search",
-    navigateTo:"/",
-    onClick:setSearch(true)
+       onClick:SearchToggle,
+
 
     },
 
@@ -63,48 +78,47 @@ const LeftBar = ({socket}) => {
 
     },
 
-
+    
     {
 
-    Icon:<BsCameraReelsFill />,
-    name:"Reels",
-    navigateTo:"/reels"
+      Icon:<BsCameraReelsFill />,
+      name:"Reels",
+      navigateTo:"/reels"
+      
+    },
 
-  },
-
-  
+    
     {
 
     Icon:<IoIosNotifications />,
     name:"Notifications",
     navigateTo:"/notifications"
 
-    },
+  },
 
-
-    {
+  
+  {
 
     Icon:<MdLibraryAdd />,
     name:"Add",
     
-    },
-
-    
-    {
-
-      Icon:user.userName ? user.userName : <MdLibraryAdd />,
-    name:"Add",
-    
   },
 
+
+
+  {
+
+      Icon:user.userName ? user.userName : <MdLibraryAdd />,
+      name:"userProfile",
+      navigateTo:`/userprofile/${user?._id}`
+    
+  },
+  
   
 ];
 
 
-
-
-
-
+ 
 
 
 
@@ -222,52 +236,49 @@ useEffect(() =>{
     
     <div>
     
-    
-    <IoHome />
-    
-    {/*
- 
-    <IoSearch onClick={() => setSearch(true) } />
-    
-  */}
-  
-  <FaRegCompass />
-  
-  <BsCameraReelsFill />
-  
-  <IoIosNotifications />
-  
-  <MdLibraryAdd />
-  
-  
+
 
   
-  {iconsOptions.map((option) =>(
+    {iconsOptions?.map((option) =>(
     
-    <div onClick={option?.onClick} key={option.Icon}>
-    
-    <span>{option.Icon}</span>
+    <Link to={option?.navigateTo}>
+      
+      <div onClick={option?.onClick} key={option?.Icon}>
+      
+      <span>{option?.Icon}</span>
+   
+      </div>
+   
+    </Link>
  
-  </div>
- 
-  ))
- 
-  }
+ ))
+  
+ }
+     
 
- 
+
  
   {search ? (
- 
-    <div>
+    
+   <div>
  
  <Search />   
  
- </div>
+   </div>
  
  
- ) : ""
+ ) : (
+
+
+ <div>
+
  
-};
+  </div> 
+
+
+ )
+ 
+}
 
 
 
@@ -301,11 +312,16 @@ useEffect(() =>{
 
 </div>
 
-)
 
+)
 
 
 
 }
 
 export default LeftBar
+
+
+
+
+

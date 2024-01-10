@@ -8,6 +8,7 @@ import main from "../stylings/main.css"
 //import {io} from "socket.io-client"
 //const socket = io.connect("http://localhost:4877");
 
+import { Outlet } from 'react-router-dom'
 
 const Main = () => {
 
@@ -99,6 +100,11 @@ const Main = () => {
 
    <div>
 
+
+   <Outlet />
+
+   {/*
+   
    {
 
    onlineUsers.map((user) =>(
@@ -108,6 +114,9 @@ const Main = () => {
    )) 
 
   }
+   
+   */}
+
 
 
    </div>

@@ -26,7 +26,7 @@ function App() {
      <Routes>
 
   
-     <Route path='/' element={<Main /> } />
+     <Route path='/' element={<Main /> } >
 
      <Route path='/userprofile/:userid' element={<UserPofileAboutPage /> } />
 
@@ -35,6 +35,7 @@ function App() {
       <Route path='/register' element={<RegisterForm /> } />
 
       
+     </Route>
 
     </Routes>
 
