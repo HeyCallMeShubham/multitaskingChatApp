@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from 'react'
 
 import { IoSearch } from "react-icons/io5"
+
 import { IoHome } from "react-icons/io5";
+
 import { FaRegCompass } from "react-icons/fa";
+
 import { BsCameraReelsFill } from "react-icons/bs";
+
 import { IoIosNotifications } from "react-icons/io";
 
 import { MdLibraryAdd } from "react-icons/md";
+
 import { Link } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
+
 import Search from './Search';
+
 import ChatRoom from './ChatRoom.js';
 
+import axios from "axios";
+
+import {Navigate} from 'react-router-dom'
 
 
 const LeftBar = ({onlineUsers, socket}) => {
 
 
-  const user = useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state?.user?.currentUser);
 
   console.log(onlineUsers, 'onlineusersss');
 
@@ -89,15 +100,53 @@ const LeftBar = ({onlineUsers, socket}) => {
 
 
 
+   
+
+
+
    const [search, setSearch] = useState(false);
 
 
+   const [conversationUsers, setConversationUsers] = useState([])
 
 
-  const [userChatRooms, setUserChatRooms] = useState([]);
+   const [userChatRooms, setUserChatRooms] = useState([]);
 
 
-  const [selectedUserToChat, setSelectedUserToChat] = useState("");
+   const [selectedUserToChat, setSelectedUserToChat] = useState("");
+
+
+
+
+
+  useEffect(() =>{
+
+    const getAllTheUsersChattedWith = async() =>{
+     
+      try{
+
+
+        const {data} = await axios.get(`http://localhost:4877/chatroom/getcurrentuserchatrooms/${user._id}`)
+
+       setConversationUsers(data);
+  
+      }catch(err){
+        
+        console.log(err);
+        
+        Navigate('/login');        
+
+      }
+
+    }
+
+
+    getAllTheUsersChattedWith();
+
+
+  }, [user]);
+
+
 
 
 
@@ -108,14 +157,53 @@ const LeftBar = ({onlineUsers, socket}) => {
 
    socket.on("online-users", (data) =>{
 
-     console.log(data, 'hello');
-
+  
    setUserChatRooms(data);
+
 
   })
 
 
-  }, [socket])
+  }, [socket]);
+
+
+  
+  
+  
+  
+  useEffect(() =>{
+    
+    const getCurrentUserChatRooms = async() =>{
+      
+      try{
+        
+        if(user._id){
+          
+          const {data} = await axios.get(`http://localhost:4877/chatroom/getcurrentuserchatrooms/${user?._id}`);
+          
+          console.log(data, 'chatroom')
+          
+          //  setConversationUsers(data);
+          
+        }else{
+          
+
+      }
+
+
+     }catch(err){
+
+     console.log(err)
+
+     }
+
+    };
+
+
+   getCurrentUserChatRooms();
+
+
+  }, []);
 
 
 
@@ -126,28 +214,6 @@ const LeftBar = ({onlineUsers, socket}) => {
 
    
    }
-
-
-
-
-
-
-
-  {/*
-
-
-  
-  {userChatRooms.map((data) =>(
-
-    <p>{data.userId}</p>
- 
-    ))
-  
-  }
-
-
-
-*/}
 
 
 
@@ -171,36 +237,34 @@ const LeftBar = ({onlineUsers, socket}) => {
 
 {search ? (
 
-<div>
+  <div>
 
- <Search />   
+  <Search />   
 
-</div>
+  </div>
 
 
  ) : ""
 
-}
-
-
+};
 
 
 
  
 
-{onlineUsers?.map((data) =>(
 
-<div onClick={() => setSelectedUserToChat(data.userId)} key={data.userId}>
 
- <p>{data.userId}online users</p>
 
-</div>
+{conversationUsers?.map((data) =>(
+  
+   <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
 
 ))
 
 }
 
- 
+
+
 
 
 
@@ -208,10 +272,7 @@ const LeftBar = ({onlineUsers, socket}) => {
 
 <ChatRoom selectedUserToChat={selectedUserToChat} currentUser={user} socket={socket} />
 
-
 ) : <p> please select a user to chat with </p>
-
-
 
 }
 

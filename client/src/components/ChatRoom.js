@@ -151,11 +151,24 @@ socket.on("message", (data) =>{
 
    };
 
+
    try{
 
-     socket.emit("send-message", obj);
+    
 
-     setRoomConversations([...roomConversations, obj]);
+
+    if(newMessage !== "" && currentChatRoomId && selectedUserToChat && currentUser?._id){
+
+      socket.emit("send-message", obj);
+  
+      setRoomConversations([...roomConversations, obj]);
+
+    }else{
+
+     alert("please write something in input")
+
+    }
+
 
    }catch(err){
 

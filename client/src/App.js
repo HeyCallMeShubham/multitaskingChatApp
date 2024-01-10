@@ -10,6 +10,7 @@ import {Routes, Route} from "react-router-dom"
 
 import Navbar from './components/Navbar.js';
 import Main from './pages/Main.js';
+import UserPofileAboutPage from './pages/UserPofileAboutPage.js';
 
 
 function App() {
@@ -26,6 +27,8 @@ function App() {
 
   
      <Route path='/' element={<Main /> } />
+
+     <Route path='/userprofile/:userid' element={<UserPofileAboutPage /> } />
 
       <Route path='/login' element={<LoginForm /> } />
 

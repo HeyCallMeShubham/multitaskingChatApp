@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import {Link} from "react-router-dom"
 import axios from "axios"
 
 
@@ -7,32 +7,38 @@ import axios from "axios"
 const Search = () => {
 
 
-  const [searched, setSearched] = useState("");
+  const [beingSearched, setBeingSearched] = useState("");
+
+  const [searchingUsersConntainer, setSearchingUsersContainer] = useState([]);
+  
+  
 
 
+  
   useEffect(() =>{
-
-   const searchSearching = async(e) =>{
-
-
-
-    try{
+    
+    const searchSearching = async(e) =>{
   
-    const {data} = await axios.get(`http://localhost:4877/?search=${searched}`)
-
-
-    }catch(err){
   
-        console.log(err)
+  
+     try{
+   
+     const {data} = await axios.get(`http://localhost:4877/user/search/searchusers?search=${beingSearched}`)
+  
+       setSearchingUsersContainer(data);
+  
+     }catch(err){
+   
+         console.log(err)
+  
+     }
+  
+    };
+    
+   searchSearching();
 
-    }
 
-   }
-
-
-   searchSearching()
-
-  },[searched])
+  },[beingSearched]);
 
   
  return (
@@ -42,18 +48,35 @@ const Search = () => {
    
 
 
-   <form>
+   <form >
 
-   <input type='text' onChange={(e) => setSearched(e.target.value)} placeholder='search a profile' />
+   <input type='text' onChange={(e) => setBeingSearched(e.target.value)} placeholder='search a profile' />
 
    <button type="text" >Search</button>
 
    </form>
 
 
-   {searched ? (
+   {beingSearched ? (
        
        <div>
+
+        {searchingUsersConntainer.map((user) =>(
+
+           <div key={user._id} >
+
+            <Link to={`userprofile/${user._id}`}>
+
+             <p>{user.userName}</p>
+            
+            </Link>
+           
+           </div>
+
+
+        ))
+
+        }
     
     
        </div> 
@@ -69,13 +92,10 @@ const Search = () => {
    </div>
 
 
-       )
+  )
        
        
-
-
-
-   }
+}
 
 
 

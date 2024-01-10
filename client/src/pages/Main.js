@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import RightBar from '../components/RightBar.js'
 import LeftBar from "../components/LeftBar.js"
-import {io} from "socket.io-client"
-import {useDispatch, useSelector} from "react-redux"
 import { addNotifications } from '../features/notificationSlice.js'
-
-const socket = io.connect("http://localhost:4877");
+import useSocketFunction from "../hooks/useSocket.js"
+import {useDispatch, useSelector} from "react-redux"
+//import {io} from "socket.io-client"
+//const socket = io.connect("http://localhost:4877");
 
 
 const Main = () => {
 
-  console.log('users');
+ const socket = useSocketFunction();
 
-
+  console.log(socket, 'hhhfhfff');
 
 
   const dispatch = useDispatch()
@@ -46,15 +46,9 @@ const Main = () => {
   /// message related states
 
 
-  
-
 
   
- 
 
-
-  
-    
 
 
   useEffect(() =>{

@@ -42,9 +42,9 @@ const Navbar = () => {
 
     {navigations.map((navigation) =>(
 
-     <Link to={navigation.link}>
+     <Link to={navigation?.link}>
      
-     <li>{navigation.name}</li>
+     <li>{navigation?.name}</li>
 
      </Link>
 
@@ -56,7 +56,7 @@ const Navbar = () => {
 
    </ul>
 
-    {notifications?.length ? notifications.length : 0}
+    {notifications?.length ? notifications?.length : 0}
   
 
     </div>
