@@ -2,9 +2,9 @@ import React from 'react';
 
 import './App.css';
 
-import RegisterForm from './pages/authpages/Register';
+import RegisterForm from './pages/authpages/Register.js';
 
-import LoginForm from './pages/authpages/Login';
+import LoginForm from './pages/authpages/Login.js';
 
 import {Routes, Route} from "react-router-dom"
 
@@ -15,10 +15,10 @@ import UserPofileAboutPage from './pages/UserPofileAboutPage.js';
 
 function App() {
 
-
-
   return (
+
     <div className="App">
+      
 
     <Navbar />
 

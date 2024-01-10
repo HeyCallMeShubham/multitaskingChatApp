@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import RightBar from '../components/RightBar.js'
-import LeftBar from "../components/LeftBar.js"
+import LeftBar from "../components/LeftBar.jsx"
 import { addNotifications } from '../features/notificationSlice.js'
 import useSocketFunction from "../hooks/useSocket.js"
 import {useDispatch, useSelector} from "react-redux"
+import main from "../stylings/main.css"
 //import {io} from "socket.io-client"
 //const socket = io.connect("http://localhost:4877");
 
@@ -35,7 +36,7 @@ const Main = () => {
  
  
   
-  const userId = useSelector((state) => state.user.currentUser._id);
+  const userId = useSelector((state) => state.user.currentUser?._id);
   
   ////
 
@@ -67,11 +68,11 @@ const Main = () => {
 
       
      const onlineUsers = data.filter((data) => data.userId !== userId)
-      
-      ///console.log(onlineUsers, 'online-userssrsrss');
+
 
       setOnlineUsers(onlineUsers);
  
+
     });
 
 
@@ -91,16 +92,25 @@ const Main = () => {
   return (
 
 
-    <div>
+   <div className='main-box-container'>
 
 
-   <LeftBar onlineUsers={onlineUsers} socket={socket} />
-  
-  <h1>
+   <LeftBar socket={socket} />
 
-  main
+   <div>
 
-  </h1>
+   {
+
+   onlineUsers.map((user) =>(
+
+   <p>{user?.userId}</p>
+
+   )) 
+
+  }
+
+
+   </div>
 
   <RightBar />
 

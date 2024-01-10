@@ -24,7 +24,6 @@ mongoose.connect("mongodb+srv://shubham:mylife@cluster0.natwega.mongodb.net/");
 
 
 
-
 app.use(cors({
 
    origin:'http://localhost:3000',
@@ -83,6 +82,14 @@ const activeUsers = [];
 
 io.on("connection", (socket) =>{
     
+
+
+    socket.on('user', (dd) =>{
+    
+        console.log(dd)
+
+    })
+
     
     socket.on("join", (userId) =>{
         
@@ -105,21 +112,25 @@ io.on("connection", (socket) =>{
 
     }
 
+
     io.emit("online-users", activeUsers);
 
 
 
     });
     
+
+
     
     console.log(activeUsers, 'hhehehee');
     
     socket.on("send-message", async(data) =>{
 
+        console.log(data, 'fffhfhfhfhf')
         
-        const message = await MessageModel.create({
+       const message = await MessageModel.create({
 
-            chatRoomId:data?.chatRoomId,
+            chatRoomId:data.chatRoomId,
             senderId:data?.senderId,
             receiverId:data?.senderId,
             text:data?.text
@@ -132,9 +143,9 @@ io.on("connection", (socket) =>{
            
            if(message){
 
-               io.to(data?.receiverId).emit("message", message);
+           io.to(data?.receiverId).emit("message", message);
 
-               console.log("sent message successfully")
+             console.log("sent message successfully")
 
            };
 
@@ -145,8 +156,11 @@ io.on("connection", (socket) =>{
 
 
     
-    
 })
+
+
+
+
 
 
 

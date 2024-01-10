@@ -71,6 +71,63 @@ const login = async(req, res) =>{
 }
 
 
+const fetchSingleUserProfile = async(req, res)=>{
+
+    console.log(req.params.userid)
+
+try{
+
+   const user = await userModel.findOne({_id:req.params.userid})
+
+   console.log(user)
+
+   res.status(200).json(user);
+
+}catch(err){
+
+  console.log(err)
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+const searchUsers = async(req, res) =>{
+
+
+ 
+    
+    const search = req.query.search || ""
+
+    const query = {
+
+      userName:{$regex:search, $options:"i"},
+  
+    }
+
+
+    try{
+
+    const users = await userModel.find(query);
+
+     res.status(200).json(users);
+
+    }catch(err){
+  
+        console.log(err);
+
+    }
+
+
+}
+
 
 
 
@@ -80,7 +137,9 @@ const login = async(req, res) =>{
 module.exports = {
 
     register,
-    login
+    login,
+    fetchSingleUserProfile,
+    searchUsers
    
 
 }

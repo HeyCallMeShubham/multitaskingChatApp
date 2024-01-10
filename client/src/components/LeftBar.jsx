@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import Search from './Search';
+import Search from './Search.js';
 
 import ChatRoom from './ChatRoom.js';
 
@@ -25,12 +25,14 @@ import axios from "axios";
 import {Navigate} from 'react-router-dom'
 
 
-const LeftBar = ({onlineUsers, socket}) => {
+const LeftBar = ({socket}) => {
 
-
+  
   const user = useSelector((state) => state?.user?.currentUser);
+ 
+  const [search, setSearch] = useState(false);
 
-  console.log(onlineUsers, 'onlineusersss');
+
 
   const iconsOptions = [
      
@@ -39,21 +41,22 @@ const LeftBar = ({onlineUsers, socket}) => {
     Icon:<IoHome />,
     name:"Home",
     navigateTo:"/"
+    
+    },
+
+    
+    {
+
+      Icon:<IoSearch />,
+      name:"Search",
+    navigateTo:"/",
+    onClick:setSearch(true)
 
     },
 
 
     {
-
-    Icon:<IoSearch />,
-    name:"Search",
-    navigateTo:"/"
-
-    },
-
-
-    {
-
+      
     Icon:<FaRegCompass />,
     name:"Explore",
     navigateTo:"/explore"
@@ -67,9 +70,9 @@ const LeftBar = ({onlineUsers, socket}) => {
     name:"Reels",
     navigateTo:"/reels"
 
-    },
+  },
 
-
+  
     {
 
     Icon:<IoIosNotifications />,
@@ -86,82 +89,80 @@ const LeftBar = ({onlineUsers, socket}) => {
     
     },
 
-
+    
     {
 
-    Icon:user.userName ? user.userName : <MdLibraryAdd />,
+      Icon:user.userName ? user.userName : <MdLibraryAdd />,
     name:"Add",
     
-    },
+  },
 
-
-  ];
-
-
-
-
-   
-
-
-
-   const [search, setSearch] = useState(false);
-
-
-   const [conversationUsers, setConversationUsers] = useState([])
-
-
-   const [userChatRooms, setUserChatRooms] = useState([]);
-
-
-   const [selectedUserToChat, setSelectedUserToChat] = useState("");
+  
+];
 
 
 
 
 
-  useEffect(() =>{
 
-    const getAllTheUsersChattedWith = async() =>{
+
+
+
+const [conversationUsers, setConversationUsers] = useState([])
+
+
+const [userChatRooms, setUserChatRooms] = useState([]);
+
+
+const [selectedUserToChat, setSelectedUserToChat] = useState("");
+
+
+
+
+
+useEffect(() =>{
+
+  const getAllTheUsersChattedWith = async() =>{
      
-      try{
-
+    try{
+      
 
         const {data} = await axios.get(`http://localhost:4877/chatroom/getcurrentuserchatrooms/${user._id}`)
-
-       setConversationUsers(data);
-  
+        
+        setConversationUsers(data);
+        
       }catch(err){
         
         console.log(err);
         
         Navigate('/login');        
-
+        
       }
-
+      
     }
-
-
+    
+    
     getAllTheUsersChattedWith();
-
+    
 
   }, [user]);
 
-
-
-
-
-
-
-  useEffect(() =>{
-
-
-   socket.on("online-users", (data) =>{
-
   
-   setUserChatRooms(data);
-
-
-  })
+  
+  
+  
+  
+  
+  useEffect(() =>{
+    
+    
+    socket.on("online-users", (data) =>{
+      
+      
+      setUserChatRooms(data);
+      
+      
+    })
 
 
   }, [socket]);
@@ -177,7 +178,7 @@ const LeftBar = ({onlineUsers, socket}) => {
       
       try{
         
-        if(user._id){
+        if(user?._id){
           
           const {data} = await axios.get(`http://localhost:4877/chatroom/getcurrentuserchatrooms/${user?._id}`);
           
@@ -187,10 +188,10 @@ const LeftBar = ({onlineUsers, socket}) => {
           
         }else{
           
-
-      }
-
-
+          
+        }
+        
+        
      }catch(err){
 
      console.log(err)
@@ -204,85 +205,107 @@ const LeftBar = ({onlineUsers, socket}) => {
 
 
   }, []);
-
-
-
-
-   const searchFunctionality = (e) =>{
-
-    e.preventDefault();
-
-   
-   }
-
-
-
-  return (
   
- <div>
+  
+  
+  
+  const searchFunctionality = (e) =>{
+    
+    e.preventDefault();
+    
+    
+  }
+  
+  
+  
+  return (
+    
+    <div>
+    
+    
+    <IoHome />
+    
+    {/*
+ 
+    <IoSearch onClick={() => setSearch(true) } />
+    
+  */}
+  
+  <FaRegCompass />
+  
+  <BsCameraReelsFill />
+  
+  <IoIosNotifications />
+  
+  <MdLibraryAdd />
+  
+  
 
-<IoHome />
-
-<IoSearch onClick={() => setSearch(true) } />
-
-<FaRegCompass />
-
-<BsCameraReelsFill />
-
-<IoIosNotifications />
-
-<MdLibraryAdd />
-
-
-
-{search ? (
-
-  <div>
-
-  <Search />   
-
+  
+  {iconsOptions.map((option) =>(
+    
+    <div onClick={option?.onClick} key={option.Icon}>
+    
+    <span>{option.Icon}</span>
+ 
   </div>
+ 
+  ))
+ 
+  }
 
-
+ 
+ 
+  {search ? (
+ 
+    <div>
+ 
+ <Search />   
+ 
+ </div>
+ 
+ 
  ) : ""
-
+ 
 };
 
 
 
- 
+
 
 
 
 
 {conversationUsers?.map((data) =>(
   
-   <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
-
-))
-
+  <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
+  
+  ))
+  
 }
 
 
-
-
-
-
-{selectedUserToChat ? (
-
-<ChatRoom selectedUserToChat={selectedUserToChat} currentUser={user} socket={socket} />
-
-) : <p> please select a user to chat with </p>
-
-}
-
-
-
-    </div>
-  
-  
-  )
  
+ 
+
+ {selectedUserToChat ? (
+   
+ <ChatRoom selectedUserToChat={selectedUserToChat} currentUser={user} socket={socket} />
+ 
+ ) : <p> please select a user to chat with </p>
+ 
+}
+ 
+ 
+
+
+</div>
+
+)
+
+
+
+
 }
 
 export default LeftBar

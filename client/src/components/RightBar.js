@@ -12,7 +12,7 @@ const RightBar = () => {
 
     <div>
 
-
+      rightbar
 
     </div>
   )

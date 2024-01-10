@@ -1,0 +1,40 @@
+
+
+.navbar-container{
+ 
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: green;
+
+    margin: 0 auto;
+
+    width: 85%;
+
+}
+
+
+
+.navbar-container ul{
+ 
+    display: flex;
+
+    background-color: red;
+
+     width:400px;
+
+    justify-content: space-between;
+
+    word-spacing: 50px;
+
+}
+
+
+
+
+
+
+
