@@ -12,6 +12,8 @@ import { IoIosNotifications } from "react-icons/io";
 
 import { MdLibraryAdd } from "react-icons/md";
 
+import { SiGooglemessages } from "react-icons/si";
+
 import { Link } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
@@ -23,14 +25,18 @@ import ChatRoom from './ChatRoom.js';
 import axios from "axios";
 
 import {Navigate} from 'react-router-dom'
+import useSocketFunction from '../hooks/useSocket.js';
 
 
-const LeftBar = ({socket}) => {
+const LeftBar = () => {
 
-  
+  const socket = useSocketFunction();
+
   const user = useSelector((state) => state?.user?.currentUser);
  
   const [search, setSearch] = useState(false);
+
+  const [inboxToggle, setInboxToggle] = useState(false);
 
    
    const SearchToggle = (e) =>{
@@ -44,6 +50,24 @@ const LeftBar = ({socket}) => {
     }else{
 
      setSearch(true)
+
+    }
+
+   }
+   
+   
+
+   const toggleInbox = (e) =>{
+
+    e.preventDefault();
+
+    if(inboxToggle){
+
+      setInboxToggle(false)
+
+    }else{
+
+     setInboxToggle(true)
 
     }
 
@@ -64,8 +88,7 @@ const LeftBar = ({socket}) => {
       
       Icon:<IoSearch />,
       name:"Search",
-       onClick:SearchToggle,
-
+      onClick:SearchToggle,
 
     },
 
@@ -103,7 +126,17 @@ const LeftBar = ({socket}) => {
     name:"Add",
     
   },
+  
 
+  {
+
+    Icon:<SiGooglemessages />,
+    name:"Inbox",
+    navigateTo:"/direct",
+    onClick:toggleInbox,
+
+    
+  },
 
 
   {
@@ -163,8 +196,7 @@ useEffect(() =>{
 
   
   
-  
-  
+
   
   
   useEffect(() =>{
@@ -237,7 +269,6 @@ useEffect(() =>{
     <div>
     
 
-
   
     {iconsOptions?.map((option) =>(
     
@@ -267,37 +298,30 @@ useEffect(() =>{
    </div>
  
  
- ) : (
+ ) : inboxToggle ? (
 
 
  <div>
+   
+   
+      {conversationUsers?.map((data) =>(
+        
+        <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
+        
+        ))
+        
+      }
 
  
-  </div> 
+  </div>    
 
 
- )
- 
-}
+) : ""
 
-
-
+} 
 
 
 
-
-
-{conversationUsers?.map((data) =>(
-  
-  <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
-  
-  ))
-  
-}
-
-
- 
- 
 
  {selectedUserToChat ? (
    
@@ -314,7 +338,6 @@ useEffect(() =>{
 
 
 )
-
 
 
 }

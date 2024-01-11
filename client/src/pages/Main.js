@@ -100,22 +100,25 @@ const Main = () => {
 
    <div>
 
+   <Outlet /> 
 
-   <Outlet />
+  
+      <div>
+        
+        
+        {
+     
+        onlineUsers.map((user) =>(
+     
+        <p>{user?.userId}</p>
+     
+        )) 
+     
+       }
+       
+        
+      </div>
 
-   {/*
-   
-   {
-
-   onlineUsers.map((user) =>(
-
-   <p>{user?.userId}</p>
-
-   )) 
-
-  }
-   
-   */}
 
 
 
