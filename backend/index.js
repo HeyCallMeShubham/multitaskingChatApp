@@ -13,6 +13,8 @@ const chatRoomRouter = require("./routes/chatRoomRoutes");
  
 const MessageModel = require("./models/messageModel");
 const messagesRouter = require("./routes/messagesRouter");
+const postRouter = require("./routes/postRouter");
+const commentRouter = require("./routes/commentRouter");
 
 
 
@@ -44,6 +46,10 @@ app.use('/user', userRouter);
 app.use('/chatroom', chatRoomRouter);
 
 app.use('/messages', messagesRouter);
+
+app.use('/comment', commentRouter);
+
+app.use('/post', postRouter);
 
 app.use(bodyParser.urlencoded({extended:true}));
 

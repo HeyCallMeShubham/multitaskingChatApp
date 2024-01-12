@@ -73,7 +73,7 @@ const login = async(req, res) =>{
 
 const fetchSingleUserProfile = async(req, res)=>{
 
-    console.log(req.params.userid)
+    console.log(req.params.userid);
 
 try{
 

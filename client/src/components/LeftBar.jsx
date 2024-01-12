@@ -34,7 +34,7 @@ const LeftBar = () => {
 
   const user = useSelector((state) => state?.user?.currentUser);
  
-  const [search, setSearch] = useState(false);
+  const [searchToggle, setSearchToggle] = useState(false);
 
   const [inboxToggle, setInboxToggle] = useState(false);
 
@@ -43,15 +43,8 @@ const LeftBar = () => {
 
     e.preventDefault();
 
-    if(search){
+    setSearchToggle((prev) => !prev)
 
-      setSearch(false)
-
-    }else{
-
-     setSearch(true)
-
-    }
 
    }
    
@@ -61,15 +54,7 @@ const LeftBar = () => {
 
     e.preventDefault();
 
-    if(inboxToggle){
-
-      setInboxToggle(false)
-
-    }else{
-
-     setInboxToggle(true)
-
-    }
+     setInboxToggle((prev) => !prev)
 
    }
 
@@ -158,8 +143,6 @@ const LeftBar = () => {
 const [conversationUsers, setConversationUsers] = useState([])
 
 
-const [userChatRooms, setUserChatRooms] = useState([]);
-
 
 const [selectedUserToChat, setSelectedUserToChat] = useState("");
 
@@ -201,11 +184,10 @@ useEffect(() =>{
   
   useEffect(() =>{
     
-    
+
     socket.on("online-users", (data) =>{
       
-      
-      setUserChatRooms(data);
+    /// onlines users list
       
       
     })
@@ -218,41 +200,7 @@ useEffect(() =>{
   
   
   
-  useEffect(() =>{
-    
-    const getCurrentUserChatRooms = async() =>{
-      
-      try{
-        
-        if(user?._id){
-          
-          const {data} = await axios.get(`http://localhost:4877/chatroom/getcurrentuserchatrooms/${user?._id}`);
-          
-          console.log(data, 'chatroom')
-          
-          //  setConversationUsers(data);
-          
-        }else{
-          
-          
-        }
-        
-        
-     }catch(err){
 
-     console.log(err)
-
-     }
-
-    };
-
-
-   getCurrentUserChatRooms();
-
-
-  }, []);
-  
-  
   
   
   const searchFunctionality = (e) =>{
@@ -289,7 +237,7 @@ useEffect(() =>{
 
 
  
-  {search ? (
+  {searchToggle ? (
     
    <div>
  
@@ -304,12 +252,32 @@ useEffect(() =>{
  <div>
    
    
-      {conversationUsers?.map((data) =>(
+      {conversationUsers.length ? conversationUsers?.map((data) =>(
+
+        <Link to={`/direct/${data._id}`}>
+        <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName} ggg</h1>
         
-        <h1 onClick={() => setSelectedUserToChat(data?._id)} key={data?._id}>{data?.userName}</h1>
+        </Link>
+
+                
         
-        ))
+        )) : (
         
+          <div>
+            
+            <p>you have no friends to talk with start by sending messages to your friends</p>
+
+            <div>
+ 
+            <Search />   
+ 
+            </div>
+ 
+
+          </div>
+
+        
+        )
       }
 
  
@@ -321,16 +289,20 @@ useEffect(() =>{
 } 
 
 
+{/*
 
 
- {selectedUserToChat ? (
-   
- <ChatRoom selectedUserToChat={selectedUserToChat} currentUser={user} socket={socket} />
- 
- ) : <p> please select a user to chat with </p>
- 
+{selectedUserToChat ? (
+  
+<ChatRoom selectedUserToChat={selectedUserToChat} currentUser={user} socket={socket} />
+
+) : <p> please select a user to chat with </p>
+
 }
- 
+
+
+*/}
+
  
 
 

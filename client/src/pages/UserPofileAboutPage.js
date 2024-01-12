@@ -1,12 +1,13 @@
 import React,{useEffect, useState} from 'react'
 
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 
 import axios from "axios"
 
 import useSocketFunction from '../hooks/useSocket'
 
 import {useDispatch, useSelector} from "react-redux"
+import { setSelectedUserToChat } from '../features/selectedUserToChatSlice'
 
 const UserPofileAboutPage = () => {
   
@@ -24,6 +25,8 @@ const UserPofileAboutPage = () => {
 
 
      const {userid} = useParams();
+
+     const dispatch = useDispatch()
   
     useEffect(()=>{
 
@@ -93,10 +96,14 @@ const UserPofileAboutPage = () => {
 
 
 
+    
+
 
     const sendMessage = (e) =>{
 
+
       e.preventDefault();
+
 
 
       const obj = {
@@ -120,24 +127,27 @@ const UserPofileAboutPage = () => {
 
       }
 
-    }
+    };
 
   
   
   return (
     
-    
     <div>
 
-    <button onClick={sendMessage}>send</button>
+    <Link to={`/direct/${userid}`}>
+    
+    <button onClick={() => dispatch(setSelectedUserToChat(userid))}>send</button>
+
+    </Link>
 
 
    <h2>{userProfile.userName}</h2>
-     
+    
 
 
     </div>
-  
+
   
   )
 
