@@ -12,7 +12,12 @@ import Navbar from './components/Navbar.js';
 import Main from './pages/Main.js';
 import UserPofileAboutPage from './pages/UserPofileAboutPage.js';
 import PrivateChatRoom from './pages/PrivateChatRoom.js';
-import Main2 from './pages/DashBoard.js';
+import DashBoard from './pages/DashBoard.js';
+import PostDetails from './pages/PostDetails.js';
+
+
+
+ 
 
 
 
@@ -32,9 +37,11 @@ function App() {
 
      <Route path='/' element={<Main />}>
 
-     <Route index path='/' element={<Main2 />} />
+     <Route index path='/' element={<DashBoard />} />
 
      <Route path='/userprofile/:userid' element={<UserPofileAboutPage /> } />
+
+     <Route path='/:postId/postdetail' element={<PostDetails /> } />
 
      <Route path='/direct/:selecteduserparamid' element={<PrivateChatRoom /> } />
 

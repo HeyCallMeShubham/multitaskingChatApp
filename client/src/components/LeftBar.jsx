@@ -25,8 +25,10 @@ import ChatRoom from './ChatRoom.js';
 import axios from "axios";
 
 import {Navigate} from 'react-router-dom'
+
 import useSocketFunction from '../hooks/useSocket.js';
 
+import leftbar from "../stylings/leftbar.css"
 
 const LeftBar = () => {
 
@@ -195,12 +197,12 @@ useEffect(() =>{
 
   }, [socket]);
 
-
   
   
   
   
-
+  
+  
   
   
   const searchFunctionality = (e) =>{
@@ -214,15 +216,16 @@ useEffect(() =>{
   
   return (
     
-    <div>
+    <div className='lists-container'>
     
-
+    <div className='container'>
+ 
   
     {iconsOptions?.map((option) =>(
     
     <Link to={option?.navigateTo}>
       
-      <div onClick={option?.onClick} key={option?.Icon}>
+      <div onClick={option?.onClick} key={option?.Icon} className='icon-container'>
       
       <span>{option?.Icon}</span>
    
@@ -307,10 +310,10 @@ useEffect(() =>{
 
 
 </div>
+</div>
 
 
 )
-
 
 }
 

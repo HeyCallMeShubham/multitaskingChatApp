@@ -38,6 +38,9 @@ const Navbar = () => {
 
 
   return (
+
+    <div className='navbar--'>
+
     <div className='navbar-container'>
 
    <ul>
@@ -60,6 +63,9 @@ const Navbar = () => {
 
     {notifications?.length ? notifications?.length : 0}
   
+
+
+    </div>
 
     </div>
   )

@@ -1,5 +1,4 @@
 
-
 .navbar-container{
  
     display: flex;
@@ -10,9 +9,12 @@
 
     background: green;
 
+    position: relative;
+
     margin: 0 auto;
 
     width: 85%;
+
 
 }
 

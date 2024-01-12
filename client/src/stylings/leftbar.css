@@ -1,0 +1,52 @@
+/* LeftBar.css */
+
+ .lists-container{
+
+   position: relative;
+   left: 0;
+   top: 0;
+
+
+ }
+
+.lists-container .container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 240px; /* Adjust the width as needed */
+  border: solid 1px rgb(0, 255, 136);
+  color: #fff; /* Text color */
+  height: 100vh;
+  position:fixed;
+  float: left;
+
+
+}
+.icon-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  word-spacing: 40px;
+   text-decoration: none;
+   color: black;
+   font-size:30px;
+  align-items: center;
+  cursor: pointer;
+  
+
+
+}
+
+.icon-container:hover {
+
+  background-color: #d1cece; /* Background color on hover */
+  width:100px;
+
+
+}
+
+.icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}

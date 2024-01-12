@@ -16,11 +16,11 @@ const CommentSection = ({postId}) => {
          try{
 
 
-            const {data} = await axios.get(`http://localhost:4877/comment/${'65a02f24a65f34c6b6240d6d'}/comments`)
+            const {data} = await axios.get(`http://localhost:4877/comment/${postId}/comments`)
 
             console.log(data, 'comments')
 
-            setComments(data)
+            setComments(data);
 
 
          }catch(err){
@@ -35,7 +35,7 @@ const CommentSection = ({postId}) => {
       getPostComment();
 
 
-    }, [])
+    }, [postId])
 
 
   return (
@@ -60,40 +60,60 @@ const CommentSection = ({postId}) => {
    
    <span onClick={() => setReplyButtonToggle((prev) => !prev)}>Reply</span>
 
-   {replyButtonToggle ? (
+  {replyButtonToggle ? (
 
-   
-      <div>
-
-      <p>comment</p>
-
-      <span>Reply</span>
+   <div>
 
 
-      </div>
-
-
-   ) : "comment section"
-
-
-   }
+      {comment?.replies?.length ? comment?.replies?.map((reply) =>(
     
+       <p>{reply?.reply}</p>
+    
+      )) : <p>{comment?.replies?.length}</p>
+    
+      }
+
+
+   </div> 
+
+
+  ) : "no replies"
+
+
+
+}
+
+
+
+
 
 </div>
    
 
 
 
-)) : <p>be the first one to this post</p>
+)) : <p>be the first one to comment on this post</p>
 
 
 
 }
 
 
+
     </div>
-    
+
+
+
   )
 }
 
 export default CommentSection
+
+
+
+
+
+
+
+
+

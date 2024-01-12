@@ -11,6 +11,8 @@ import dashboard from "../stylings/dashboard.css"
 
 import { Outlet } from 'react-router-dom'
 import CommentSection from '../components/CommentSection.js'
+import axios from 'axios'
+import InstagramPost from '../components/InstagramPost.js'
 
 const DashBoard = () => {
 
@@ -34,7 +36,10 @@ const DashBoard = () => {
    });
 
 
-  }, [socket])
+  }, [socket]);
+
+
+
  
  
  
@@ -44,6 +49,8 @@ const DashBoard = () => {
   ////
 
   const [onlineUsers, setOnlineUsers] = useState([]);
+
+  const [posts, setPosts] = useState([]);
 
 
 
@@ -82,12 +89,68 @@ const DashBoard = () => {
   }, [socket]);
 
 
+  useEffect(() => {
+
+
+   const getPostsByUsersThatCurrentUserFollows = async() =>{
+
+      try{
+
+        const {data} = await axios.get("http://localhost:4877/post/getuserposts", {
+
+        method:"GET",
+        headers:{'Content-Type':"application/json"},
+ 
+  
+        });
+
+
+        console.log(data, 'postsss')
+
+        setPosts(data)
+
+
+      }catch(err){
+
+        console.log(err)
+
+      }
+
+   }
+
+
+   getPostsByUsersThatCurrentUserFollows()
+
+
+  }, []);
+
  
 
   return (
 
 
    <div className='main-box-container'>
+    
+<ul>
+
+    {posts.map((post) =>(
+
+      <li key={post._id}>
+
+        <InstagramPost key={post._id} post={post} />
+
+      </li>
+
+
+    ))
+
+
+
+    }
+
+</ul>
+
+
 
       <div>
         

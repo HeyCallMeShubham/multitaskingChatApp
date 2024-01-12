@@ -54,6 +54,24 @@ const multitaskingPostsModel = require("../models/postsModel")
 
 
 
+   const getOnePost = async(req,res) =>{
+
+    try{
+
+        const post = await multitaskingPostsModel.findOne({_id:req.params.postId})
+
+        res.status(200).json(post)
+
+    }catch(err){
+
+        console.log(err);
+
+    }
+
+   }
+
+
+
 
 
 
@@ -64,7 +82,8 @@ const multitaskingPostsModel = require("../models/postsModel")
 module.exports = {
 
     addPost,
-    getUserPosts
+    getUserPosts,
+    getOnePost
   
 
 
